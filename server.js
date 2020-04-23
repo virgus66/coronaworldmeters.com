@@ -5,6 +5,7 @@ const express = require('express')
 const app = express()
 const PORT = process.env.SERVER_PORT || 4000
 const mongoose = require('mongoose')
+const cors = require('cors');
 
 
 // Mongo DB
@@ -15,13 +16,16 @@ db.once('open', () => console.log('connected to database'))
 
 // API
 app.use(express.json())
+app.use(cors());
+app.options('*', cors());
+
 const covidRouter = require('./routes/covid')
 app.use('/api/covid', covidRouter)
 
 // Static files
 app.use(express.static(path.join(__dirname, 'frontend/build')));
 app.get('*', (req, res) =>
-    res.sendFile( path.join(__dirname + '/frontend/build/index.html' )
+    res.render( path.join(__dirname + '/frontend/build/index.html' , {title:"vcdfgfds"} )
 ))
 
 
