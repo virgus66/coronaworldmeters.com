@@ -1,5 +1,7 @@
 require('dotenv').config()
 const path = require('path')
+// const https = require('https');
+// const fs = require('fs');
 
 const express = require('express')
 const app = express()
@@ -8,7 +10,7 @@ const mongoose = require('mongoose')
 const cors = require('cors');
 
 
-// Mongo DB ----
+// Mongo DB
 mongoose.connect(process.env.DATABASE_URL, { useUnifiedTopology: true, useNewUrlParser: true } )
 const db = mongoose.connection
 db.on('error', err => console.log(err))
@@ -28,6 +30,16 @@ app.get('*', (req, res) =>
     res.render( path.join(__dirname + '/frontend/build/index.html' , {title:"vcdfgfds"} )
 ))
 
+
+//TODO add SSL
+// const httpsServer = https.createServer({
+//     key: fs.readFileSync('/var/www/html/coronaworldmeters.com/coronaworldmeters.key'),
+//     cert: fs.readFileSync('/var/www/html/coronaworldmeters.com/coronaworldmeters.csr'),
+// }, app);
+
+// httpsServer.listen(443, () => {
+//     console.log('HTTPS Server running on port 443');
+// });
 
 app.listen(PORT, () => {
     console.log('Server started on port '+ PORT)

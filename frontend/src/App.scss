@@ -23,11 +23,28 @@
 
   & .statistics-taken {
     margin: 40px auto;
+    font-size: 16px;
+  }
+
+  & .section-header {
+    font-size: calc(10px + 2vmin);
+    margin: 40px auto;
   }
 
   & .MuiPaper-elevation1 {
     max-width: 1620px;
     width: 95%;
+  }
+
+  & .chartjs {
+    max-width: 1620px;
+    width: 95%;
+    height: 550px;
+    margin: 50px auto;
+    @media (max-width:500px) {
+      height: 90vh;
+      // border: 1px solid red
+    }
   }
 }
 

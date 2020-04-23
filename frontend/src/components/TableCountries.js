@@ -19,10 +19,12 @@ const useStyles = makeStyles({
 export default function SimpleTable({list}) {
 
   const classes = useStyles();
-  const [countries, setCountries] = useState([])
-  useEffect( ()=> {
-    setCountries(list)
-  }, [list])
+  // const [countries, setCountries] = useState([])
+  // useEffect( ()=> {
+  //   setCountries(list)
+
+  //   console.log('table: ',countries)
+  // }, [list])
 
   return list.length > 0 ? (
     <TableContainer component={Paper}>
@@ -45,8 +47,7 @@ export default function SimpleTable({list}) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {countries.map((row) => (
-          <>
+          {list.map((row) => (
             <TableRow key={row.country_name}>
               <TableCell component="th" scope="row">{row.country_name}</TableCell>
               <TableCell align="right">{row.cases}</TableCell>
@@ -61,9 +62,7 @@ export default function SimpleTable({list}) {
               <TableCell align="right">{row.total_cases_per_1m_population}</TableCell>
               <TableCell align="right">{row.total_recovered}</TableCell>
               <TableCell align="right">{row.total_tests}</TableCell>
-
             </TableRow>
-          </>
           ))}
         </TableBody>
       </Table>
