@@ -8,7 +8,7 @@ const mongoose = require('mongoose')
 const cors = require('cors');
 
 
-// Mongo DB
+// Mongo DB 
 mongoose.connect(process.env.DATABASE_URL, { useUnifiedTopology: true, useNewUrlParser: true } )
 const db = mongoose.connection
 db.on('error', err => console.log(err))
