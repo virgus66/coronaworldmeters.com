@@ -1,0 +1,20 @@
+.world_statistics_wrapper {
+    & h4 {
+        margin: 10px auto;
+        color: #969696;
+    }
+
+    & h3 {
+        margin: 10px auto 40px;
+
+        &.cases {
+            color: rgb(7, 121, 187)
+        }
+        &.deaths {
+            color: red
+        }
+        &.recovered {
+            color: green
+        }
+    }
+}

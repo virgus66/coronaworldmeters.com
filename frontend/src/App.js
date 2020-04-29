@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import './App.scss';
+import './scss/App.scss';
 import axios from 'axios'
 import TableCountries from './components/TableCountries'
-import Ad from './components/GoogleAd'
+// import Ad from './components/GoogleAd'
 import Chart from 'chart.js'
+import WorldStats from './components/WorldStats.jsx'
+const json = require('./testApiResponses/covid.json')
 
 
 function App() {
@@ -13,11 +15,24 @@ function App() {
   const [takenAt, setTakenAt]     = useState()
 
   useEffect( ()=> {
+
+    // DEVELOPMENT DATA
+    // console.log(json)
+    // let rest = json.countries_stat
+    // rest.splice(0,1)
+    // rest.pop() // TODO place China on right position, sort table
+    // let top20 = rest.splice(0,20)
+    // setTop20(top20)
+    // setCountries(rest)
+    // setTakenAt(json.statistic_taken_at)
+    // createChart('cases_top20', top20)
+    // createChart('cases_rest', rest)
+
     axios({
-      method:"GET",
       // TODO implement environmental variables for Create React App
       // url: process.env.ENVIRONMENT == 'prod' ? 'http://coronaworldmeters.com/covid' : 'http://localhost:3003/api/covid',
-      url: 'http://coronaworldmeters.com/api/covid',
+      method:"GET",
+      url: 'https://coronaworldmeters.com/api/covid',
       // url: 'http://localhost:3003/api/covid',
     })
     .then( response => {
@@ -36,6 +51,7 @@ function App() {
       createChart('cases_rest', rest)
     })
     .catch( error => console.log(error) )
+
   }, [])
 
 
@@ -43,6 +59,8 @@ function App() {
     <div className="App">
       <header className="App-header">
         <div className="statistics-taken">Statistics taken at: {takenAt}</div>
+
+          <WorldStats />
 
           <h1 className="section-header">Most COVID-19 cases per country - Top 20 </h1>
           <TableCountries list={top20} />
@@ -68,7 +86,7 @@ function createChart(element, data) {
   // ctx.height = 300;
   
   let labels = data.map( country => country.country_name )
-  let values = data.map( country => parseInt( country.cases.replace(/,/,'') ) )
+  let values = data.map( country => parseInt( country.cases.replace(/,/g,'') ) )
 
   let backgroundColor = []
   let borderColor = []
@@ -80,8 +98,6 @@ function createChart(element, data) {
     backgroundColor.push(`rgba(${r},${g},${b}, 0.2)`)
     borderColor.push(`rgba(${r},${g},${b}, 1)`)
   })
-  // console.log(labels)
-  // console.log(values)
 
   const myChart = new Chart(ctx, {
       type: 'bar',

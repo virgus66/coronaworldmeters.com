@@ -31,16 +31,11 @@ app.get('*', (req, res) =>
 ))
 
 
-//TODO add SSL
-// const httpsServer = https.createServer({
-//     key: fs.readFileSync('/var/www/html/coronaworldmeters.com/coronaworldmeters.key'),
-//     cert: fs.readFileSync('/var/www/html/coronaworldmeters.com/coronaworldmeters.csr'),
-// }, app);
-
-// httpsServer.listen(443, () => {
-//     console.log('HTTPS Server running on port 443');
-// });
-
 app.listen(PORT, () => {
     console.log('Server started on port '+ PORT)
+
+    console.log(
+        'Directory: ',
+        __dirname,
+    )
 })

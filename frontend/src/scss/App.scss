@@ -34,6 +34,14 @@
   & .MuiPaper-elevation1 {
     max-width: 1620px;
     width: 95%;
+
+    & .table_row {
+      transition: background-color .7s;
+      &:hover {
+        background-color: rgba(93, 97, 100, 0.507);
+        cursor: pointer;
+      }
+    }
   }
 
   & .chartjs {
