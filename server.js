@@ -1,5 +1,7 @@
 require('dotenv').config()
 const path = require('path')
+// const https = require('https');
+// const fs = require('fs');
 
 const express = require('express')
 const app = express()
@@ -31,4 +33,9 @@ app.get('*', (req, res) =>
 
 app.listen(PORT, () => {
     console.log('Server started on port '+ PORT)
+
+    console.log(
+        'Directory: ',
+        __dirname,
+    )
 })
