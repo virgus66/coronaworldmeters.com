@@ -32,8 +32,8 @@ function App() {
       // TODO implement environmental variables for Create React App
       // url: process.env.ENVIRONMENT == 'prod' ? 'http://coronaworldmeters.com/covid' : 'http://localhost:3003/api/covid',
       method:"GET",
-      url: 'https://coronaworldmeters.com/api/covid',
-      // url: 'http://localhost:3003/api/covid',
+      // url: 'https://coronaworldmeters.com/api/covid',
+      url: 'http://localhost:3003/api/covid',
     })
     .then( response => {
       console.log(response.data)

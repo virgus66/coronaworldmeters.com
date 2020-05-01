@@ -1,21 +1,29 @@
 const express = require('express')
 const router = express.Router()
 const Covid = require('../models/covid')
-const Visitor = require('../models/visitor')
 const  service = require('../services/covidService')
+// const LogVisitor = require('../middlewares/LogVisitor')
 
 
 // Getting all
-router.get('/', (req,res) => {
-    console.log('Request made')
-    const visitor = new Visitor({
-      ip: req.connection.remoteAddress || req.socket.remoteAddress,
-      browser: req.headers['user-agent'],
-    })
-    visitor.save()
+router.get('/', async (req,res) => {
+    
+    let lastCovidRecord;
+    let lastRecordTimestamp;
+    let currentTimestamp;
 
-    service('/cases_by_country.php')
-    .then( async (response)=>{
+    await Covid.findOne({}, {}, { sort:{'apiResponseDate':-1} },  
+      (err,record) => lastCovidRecord = record )
+
+    if (lastCovidRecord !== null) {
+      lastRecordTimestamp = new Date(lastCovidRecord.apiResponseDate).getTime() / 1000
+      currentTimestamp = new Date().getTime() / 1000
+      console.log('Last request ',Math.floor(currentTimestamp - lastRecordTimestamp),'s ago')
+    }
+
+    if ( (currentTimestamp-lastRecordTimestamp) > 10*60 || lastCovidRecord === null ) {
+      service('/cases_by_country.php')
+      .then( async (response)=>{
         // console.log(response)
         const covid = new Covid({
           apiResponseBody: JSON.stringify(response),
@@ -28,9 +36,16 @@ router.get('/', (req,res) => {
         } catch (err) {response.DbRes = err}
         // response.DbRes.apiResponseBody = JSON.parse(response.DbRes.apiResponseBody)
         
+        console.log('New Api request')
         res.send(response)
       })
       .catch( (error) => res.send(error) )
+    }
+    else {
+      console.log('Res from memory')
+      res.send(lastCovidRecord.apiResponseBody)
+    }
+
 })
 
 // Get affected countries
