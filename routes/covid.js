@@ -15,7 +15,7 @@ router.get('/', async (req,res) => {
     await Covid.findOne({}, {}, { sort:{'apiResponseDate':-1} },  
       (err,record) => lastCovidRecord = record )
 
-    if (lastCovidRecord !== null) {
+    if (lastCovidRecord !== null && lastCovidRecord !== undefined) {
       lastRecordTimestamp = new Date(lastCovidRecord.apiResponseDate).getTime() / 1000
       currentTimestamp = new Date().getTime() / 1000
       console.log('Last request ',Math.floor(currentTimestamp - lastRecordTimestamp),'s ago')
