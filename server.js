@@ -1,13 +1,13 @@
 require('dotenv').config()
-const path = require('path')
-// const https = require('https');
-// const fs = require('fs');
-
 const express = require('express')
 const app = express()
 const PORT = process.env.SERVER_PORT || 4000
+const path = require('path')
 const mongoose = require('mongoose')
 const cors = require('cors');
+// const fs = require('fs');
+
+const LogVisitor = require('./middlewares/LogVisitor')
 
 
 // Mongo DB 
@@ -16,13 +16,15 @@ const db = mongoose.connection
 db.on('error', err => console.log(err))
 db.once('open', () => console.log('connected to database'))
 
+
 // API
 app.use(express.json())
 app.use(cors());
 app.options('*', cors());
 
 const covidRouter = require('./routes/covid')
-app.use('/api/covid', covidRouter)
+app.use('/api/covid', LogVisitor, covidRouter)
+
 
 // Static files
 app.use(express.static(path.join(__dirname, 'frontend/build')));

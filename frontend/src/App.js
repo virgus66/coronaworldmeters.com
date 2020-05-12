@@ -95,7 +95,7 @@ function createChart(element, data) {
     let r = Math.floor(Math.random() * 256)
     let g = Math.floor(Math.random() * 256)
     let b = Math.floor(Math.random() * 256)
-    backgroundColor.push(`rgba(${r},${g},${b}, 0.2)`)
+    backgroundColor.push(`rgba(${r},${g},${b}, 0.5)`)
     borderColor.push(`rgba(${r},${g},${b}, 1)`)
   })
 
